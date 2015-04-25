@@ -20,8 +20,8 @@ gulp.task("sftp", function() {
 });
 
 /* ローカルroot以下を全て送る */
-/* gulp sftp-all コマンド */
-gulp.task("sftp-all", function() {
+/* コマンドラインで実行 -> $ gulp all */
+gulp.task("all", function() {
   gulp.src("./root/**")
     .pipe(sftp({
         host: "192.168.33.10",
@@ -32,8 +32,4 @@ gulp.task("sftp-all", function() {
     }));
 });
 
-gulp.task("watch", function() {
-  gulp.watch(target.local, ["sftp"]);
-});
-
-gulp.task("default", ["watch"]);
+gulp.task("default", ["sftp"]);
