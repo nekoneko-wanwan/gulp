@@ -1,51 +1,59 @@
-var gulp        = require("gulp");
-var browserSync = require("browser-sync").create();
-var compass     = require("gulp-compass");
-var plumber     = require("gulp-plumber");
+var gulp        = require('gulp');
+var browserSync = require('browser-sync').create();
+var sass        = require('gulp-ruby-sass');
+var plumber     = require('gulp-plumber');
 
+var ROOT = './root/';
+var SCSS = {
+  src : ROOT + '_scss/*.scss',
+  dist: ROOT + 'css/'
+};
 
-var watch_paths = [
-  "./root/**/*.css",
-  "./root/**/*.html",
-  "./root/**/*.js"
+/* 更新を監視するファイル群 */
+var reloadWatchPaths = [
+  ROOT + '**/*.css',
+  ROOT + '**/*.js',
+  ROOT + '**/*.html'
 ];
 
 
 /* static server */
-gulp.task("server", function() {
+gulp.task('server', function() {
   browserSync.init({
     server: {
-      baseDir: "./root/",
+      baseDir: ROOT,
+      middleware: function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+      },
       directory: false
     },
     open: false,
-    port: 8001  // localhost:8001 
+    notify: false,
+    port: 9999  // localhost:8001 
   });
 });
 
 
-/* compass */
-gulp.task("compass", function() {
-    gulp.src("root/scss/**/*.scss")
-        .pipe(plumber()) //エラーが出てもwatchを止めない
-    .pipe(compass({
-        config_file: "root/scss/config.rb", //compassの設定ファイルの場所
-        css: "root/css/", //出力するcssのフォルダ場所
-        sass: "root/scss" //sassファイルの場所
-    }));
+/* sass */
+gulp.task('sass', function () {
+  return sass(SCSS.src, {
+      style: 'expanded',
+      stopOnError: false,
+      cacheLocation: './sass-cache'
+    })
+    .pipe(plumber())
+    .pipe(gulp.dest(SCSS.dist));
 });
 
 
 /* watch */
-gulp.task("watch", function() {
-    gulp.watch("root/scss/**/*.scss", ["compass"]);
+/* htmlファイルはhtmlとして正しい形式（タグ）が入っていないと動作しないので注意 */
+gulp.task('watch', function() {
+  gulp.watch(SCSS.src, ['sass']);
+  gulp.watch(reloadWatchPaths).on('change', browserSync.reload);
 });
 
 
-/* reload */
-gulp.task("reload", function() {
-  gulp.watch(watch_paths).on("change", browserSync.reload);
-});
-
-
-gulp.task("default", ["server", "compass", "watch", "reload"]);
+// CI -> $ gulp
+gulp.task('default', ['server', 'sass', 'watch']);

@@ -2,7 +2,8 @@
 
 - reload-only
 - sftp
-- scss
+- scss -> **[NEW]**
+- compass
 - custom
 - sequence
 - once
@@ -25,9 +26,12 @@
 > 項目を分けはしたものの、実際にはタスクの一つとして行うことが多い
 
 ## scss
-- scssのコンパイル（compass）
+- scssのコンパイル
 - html, css, jsのライブリロード
-- これだけで十分間に合ってしまうことも多い
+
+## compass
+- compassのコンパイル
+- html, css, jsのライブリロード
 
 ## custom
 - scssのコンパイル
