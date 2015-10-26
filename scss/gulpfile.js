@@ -5,7 +5,7 @@ var plumber     = require('gulp-plumber');
 
 var ROOT = './root/';
 var SCSS = {
-  src : ROOT + '_scss/*.scss',
+  src : ROOT + '_scss/**/*.scss',
   dist: ROOT + 'css/'
 };
 
