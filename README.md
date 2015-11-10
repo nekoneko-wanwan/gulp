@@ -2,11 +2,12 @@
 
 - reload-only
 - sftp
-- scss -> **[NEW]**
+- scss
 - compass
 - custom
 - sequence
 - once
+- browserify  -> **[NEW]**
 
 ## reload-only
 - 指定ディレクトリ以下のhtml, css, jsの変更を感知し、ライブリロードを行う
@@ -44,8 +45,6 @@
 - altjs
 - png画像の圧縮、CSSスプライト
 	- タスクランナーとは別のツールを使うことが多いため
-- BrowserifyやWebpackなどによるモジュール管理
-	- 必要となることが少ないため
 
 ## sequence
 - 並列ではなく直列（同期的）で処理を行う
@@ -55,3 +54,9 @@
 - 連続イベントの発生を抑制
 - 例えばwatch時に複数ファイルの変更を（ほぼ）同時に感知した時に、何度も同じ処理をさせないようにする
 
+
+## browserify
+- browserifyの実行
+- html, css, jsのライブリロード
+- エラーが出てもwatchは止めない
+- 圧縮することも可能
